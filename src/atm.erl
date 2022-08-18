@@ -29,10 +29,12 @@
 %% @doc Creates a gen_statem process which calls Module:init/1 to
 %% initialize. To ensure a synchronized start-up procedure, this
 %% function does not return until Module:init/1 has returned.
-start_link() ->
-  gen_statem:start_link({global, ?SERVER}, ?MODULE, [], []).
+start_link(ATMName) ->
+  gen_statem:start_link({global, ATMName}, ?MODULE, [], []).
 
-card_inserted(AccountNumber)
+card_inserted(AccountNumber) ->
+  gen_statem:cast(?MODULE, {card, AccountNumber}).
+
 %%%===================================================================
 %%% gen_statem callbacks
 %%%===================================================================
